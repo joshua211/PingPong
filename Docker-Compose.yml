@@ -1,0 +1,19 @@
+version: '3'
+services:
+  ping-server:
+    build:
+      context: ./Ping
+      dockerfile: Dockerfile
+    container_name: ping-server
+    ports:
+      - "8765:8765"
+
+  pong-client:
+    build:
+      context: ./Pong
+      dockerfile: Dockerfile
+    container_name: pong-client
+    depends_on:
+      - ping-server
+    environment:
+      - PING_SERVER_ADDRESS=ws://ping-server:8765
